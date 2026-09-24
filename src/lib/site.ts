@@ -1,10 +1,27 @@
+/**
+ * URL pública do site, tolerante a valores ausentes, vazios ou sem protocolo
+ * (ex.: "" ou "silveira.com.br"). Nunca lança erro: cai em localhost.
+ */
+function resolveSiteUrl(): string {
+  const fallback = "http://localhost:3000";
+  const raw = (process.env.NEXT_PUBLIC_SITE_URL ?? "").trim();
+  if (!raw) return fallback;
+
+  const withProtocol = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  try {
+    return new URL(withProtocol).origin;
+  } catch {
+    return fallback;
+  }
+}
+
 export const site = {
   name: "Silveira iPhones",
   shortName: "Silveira",
   tagline: "Seu próximo iPhone começa aqui.",
   description:
     "Tecnologia, exclusividade e atendimento especializado para você escolher seu próximo iPhone. Explore a vitrine e fale com um especialista pelo WhatsApp.",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, ""),
+  url: resolveSiteUrl(),
   locale: "pt_BR",
 } as const;
 
