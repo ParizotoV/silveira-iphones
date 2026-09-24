@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Silveira iPhones — design tokens
+   Base: preto profundo. Azul elétrico usado de forma estratégica.
+   ========================================================================== */
+
+:root {
+  --ink: #010103;
+  --surface: #0b0b10;
+  --surface-2: #101018;
+  --line: #242430;
+  --electric: #004dd0;
+  --electric-soft: #4d86f0; /* variação clara: texto/links sobre fundo escuro (AA) */
+  --muted: #a1a1aa;
+  --white: #ffffff;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-electric: var(--electric);
+  --color-electric-soft: var(--electric-soft);
+  --color-muted: var(--muted);
+
+  --font-sans: var(--f-body);
+  --font-display: var(--f-display);
+  --font-mono: var(--f-mono);
+
+  --shadow-glow: 0 0 0 1px rgba(0, 77, 208, 0.55), 0 0 32px -6px rgba(0, 77, 208, 0.55);
+  --shadow-glow-lg: 0 0 0 1px rgba(77, 134, 240, 0.5), 0 24px 80px -24px rgba(0, 77, 208, 0.65);
+
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  color-scheme: dark;
+  background: var(--ink);
+  /* `clip` (e não `hidden`) evita overflow horizontal sem quebrar o position: sticky */
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--f-body), system-ui, sans-serif;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--electric);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--electric-soft);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Utilitários de marca
+   -------------------------------------------------------------------------- */
+
+.glass {
+  background: rgba(11, 11, 16, 0.62);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.hairline-top {
+  background-image: linear-gradient(90deg, transparent, rgba(77, 134, 240, 0.55), transparent);
+  height: 1px;
+}
+
+.text-gradient {
+  background: linear-gradient(180deg, #fff 30%, rgba(255, 255, 255, 0.62));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+}
+
+/* --------------------------------------------------------------------------
+   Animações de ambiente (CSS puro; desativadas em prefers-reduced-motion)
+   -------------------------------------------------------------------------- */
+
+@keyframes silveira-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes silveira-shadow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(0.86);
+    opacity: 0.6;
+  }
+}
+
+@keyframes silveira-twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes silveira-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.anim-float {
+  animation: silveira-float 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.anim-shadow {
+  animation: silveira-shadow 7s ease-in-out infinite;
+}
+
+.anim-twinkle {
+  animation: silveira-twinkle 5s ease-in-out infinite;
+}
+
+.anim-cue {
+  animation: silveira-cue 2.2s var(--ease-premium) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .anim-float,
+  .anim-shadow,
+  .anim-twinkle,
+  .anim-cue {
+    animation: none;
+  }
+}
